@@ -37,6 +37,10 @@ class QuestionViewModel(
         }
     }
 
+    fun updateQuestion(question: Question) {
+        viewModelScope.launch { questionRepository.updateQuestion(question) }
+    }
+
     companion object {
         val Factory = viewModelFactory {
             initializer {

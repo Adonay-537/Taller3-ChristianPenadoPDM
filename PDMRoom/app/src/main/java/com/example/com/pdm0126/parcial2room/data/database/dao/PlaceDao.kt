@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.com.pdm0126.parcial2room.data.database.entities.PlaceEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -18,4 +19,7 @@ interface PlaceDao {
 
     @Delete
     suspend fun deletePlace(place: PlaceEntity)
+
+    @Update
+    suspend fun updatePlace(place: PlaceEntity)
 }

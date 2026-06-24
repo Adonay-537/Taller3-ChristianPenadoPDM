@@ -11,7 +11,7 @@ import com.example.com.pdm0126.parcial2room.data.database.entities.QuestionEntit
 
 @Database(
     entities = [QuestionEntity::class, PlaceEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

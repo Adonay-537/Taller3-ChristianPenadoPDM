@@ -27,9 +27,9 @@ class PlaceViewModel(
                 initialValue = emptyList()
             )
 
-    fun addPlace(name: String, imageUrl: String) {
+    fun addPlace(value: String, imageUrl: String?) {
         viewModelScope.launch {
-            placeRepository.addPlace(name, imageUrl, questionId)
+            placeRepository.addPlace(value, imageUrl, questionId)
         }
     }
 
@@ -37,6 +37,10 @@ class PlaceViewModel(
         viewModelScope.launch {
             placeRepository.deletePlace(place)
         }
+    }
+
+    fun updatePlace(place: Place) {
+        viewModelScope.launch { placeRepository.updatePlace(place) }
     }
 
     companion object {

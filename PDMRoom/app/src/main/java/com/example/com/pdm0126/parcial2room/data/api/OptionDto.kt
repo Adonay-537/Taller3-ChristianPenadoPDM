@@ -14,7 +14,8 @@ data class OptionDto(
 
 fun OptionDto.toModel(): Place = Place(
     id = id,
-    name = name,
+    value = name,
     imageUrl = imageUrl,
     votes = votes,
+    questionId = 0
 )

@@ -51,7 +51,6 @@ fun PlaceScreen(
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
-            // Estado vacío si no hay lugares creados [cite: 447]
             if (places.isEmpty()) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -76,7 +75,6 @@ fun PlaceScreen(
                     )
                 }
             } else {
-                // Lista de lugares [cite: 520, 521]
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(vertical = 4.dp),
@@ -87,13 +85,13 @@ fun PlaceScreen(
                             ListItem(
                                 headlineContent = {
                                     Text(
-                                        text = place.name,
+                                        text = place.value,
                                         style = MaterialTheme.typography.titleMedium
                                     )
                                 },
                                 supportingContent = {
                                     Text(
-                                        text = place.imageUrl,
+                                        text = place.imageUrl ?: "Sin imagen",
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )

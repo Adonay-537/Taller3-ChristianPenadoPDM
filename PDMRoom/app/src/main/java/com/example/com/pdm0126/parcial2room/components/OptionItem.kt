@@ -50,7 +50,7 @@ fun OptionItem(
 
             AsyncImage(
                 model = option.imageUrl,
-                contentDescription = option.name,
+                contentDescription = option.value,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(64.dp)
@@ -59,7 +59,7 @@ fun OptionItem(
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = option.name,
+                    text = option.value,
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(

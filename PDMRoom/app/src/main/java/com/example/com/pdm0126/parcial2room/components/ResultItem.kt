@@ -32,7 +32,7 @@ fun ResultItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = option.name,
+                text = option.value,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.weight(1f),
             )

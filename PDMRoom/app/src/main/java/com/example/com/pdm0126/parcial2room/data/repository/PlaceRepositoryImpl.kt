@@ -17,13 +17,17 @@ class PlaceRepositoryImpl(
         }
     }
 
-    override suspend fun addPlace(name: String, imageUrl: String, questionId: Int) {
+    override suspend fun addPlace(value: String, imageUrl: String?, questionId: Int) {
 
-        val place = Place(name = name, imageUrl = imageUrl, votes = 0, questionId = questionId)
+        val place = Place(value= value, imageUrl = imageUrl, votes = 0, questionId = questionId)
         placeDao.insertPlace(place.toEntity())
     }
 
     override suspend fun deletePlace(place: Place) {
         placeDao.deletePlace(place.toEntity())
+    }
+
+    override suspend fun updatePlace(place: Place) {
+        placeDao.updatePlace(place.toEntity())
     }
 }

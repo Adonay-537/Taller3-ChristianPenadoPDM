@@ -7,73 +7,42 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.com.pdm0126.parcial2room.model.Place
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlaceBottomSheet(
-    onSave: (name: String, imageUrl: String) -> Unit,
+    placeToEdit: Place? = null, // Recibimos el objeto opcional
+    onSave: (value: String, imageUrl: String?) -> Unit, // imageUrl ahora es nullable
     onDismiss: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
-    var name by rememberSaveable { mutableStateOf("") }
-    var imageUrl by rememberSaveable { mutableStateOf("") }
-    val isValid = name.isNotBlank() && imageUrl.isNotBlank()
+    // Si placeToEdit tiene datos, los cargamos; si no, inicializa vacío
+    var value by rememberSaveable { mutableStateOf(placeToEdit?.value ?: "") }
+    var imageUrl by rememberSaveable { mutableStateOf(placeToEdit?.imageUrl ?: "") }
 
-    ModalBottomSheet(
-        sheetState = sheetState,
-        onDismissRequest = onDismiss
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Text(
-                text = "Nuevo Lugar",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = "Agrega nombre e imagen para que aparezca en la lista.",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+    val isValid = value.isNotBlank() // La imagen ya no es obligatoria para ser válido
 
-            OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text("Nombre del lugar") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
+    ModalBottomSheet(sheetState = sheetState, onDismissRequest = onDismiss) {
+        Column(modifier = Modifier.fillMaxWidth().padding(16.dp).padding(bottom = 32.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            // Cambiamos el título dinámicamente
+            Text(if (placeToEdit == null) "Nuevo Lugar" else "Editar Lugar", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
 
-            OutlinedTextField(
-                value = imageUrl,
-                onValueChange = { imageUrl = it },
-                label = { Text("URL de la imagen") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
+            OutlinedTextField(value = value, onValueChange = { value = it }, label = { Text("Nombre/Valor") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
+            OutlinedTextField(value = imageUrl, onValueChange = { imageUrl = it }, label = { Text("URL de la imagen (Opcional)") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 TextButton(onClick = onDismiss) { Text("Cancelar") }
-                Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     onClick = {
                         if (isValid) {
-                            onSave(name.trim(), imageUrl.trim())
+                            // Pasamos null si la imagen está vacía
+                            onSave(value.trim(), imageUrl.trim().takeIf { it.isNotBlank() })
                             onDismiss()
                         }
                     },
                     enabled = isValid
-                ) {
-                    Text("Guardar")
-                }
+                ) { Text("Guardar") }
             }
         }
     }
